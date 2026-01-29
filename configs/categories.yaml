@@ -1,0 +1,434 @@
+# Category Configuration for PLVLDet
+# 32 categories for transmission line component recognition
+
+categories:
+  # Parent categories (7)
+  IT:
+    id: 0
+    name: "Insulator"
+    abbr: "IT"
+    text_prompts:
+      - "insulator"
+      - "power line insulator"
+      - "transmission line insulator"
+    parent: null
+    is_parent: true
+    
+  CI:
+    id: 1
+    name: "Ceramic insulator"
+    abbr: "CI"
+    text_prompts:
+      - "ceramic insulator"
+      - "porcelain insulator"
+    parent: "IT"
+    is_parent: true
+    
+  GI:
+    id: 2
+    name: "Glass insulator"
+    abbr: "GI"
+    text_prompts:
+      - "glass insulator"
+      - "toughened glass insulator"
+    parent: "IT"
+    is_parent: true
+    
+  PI:
+    id: 3
+    name: "Polymer insulator"
+    abbr: "PI"
+    text_prompts:
+      - "polymer insulator"
+      - "composite insulator"
+      - "silicone rubber insulator"
+    parent: "IT"
+    is_parent: true
+    
+  FMT:
+    id: 4
+    name: "Foreign matters on tower"
+    abbr: "FMT"
+    text_prompts:
+      - "foreign matters on tower"
+      - "tower foreign object"
+    parent: null
+    is_parent: true
+    
+  WFM:
+    id: 5
+    name: "Wire foreign matter"
+    abbr: "WFM"
+    text_prompts:
+      - "wire foreign matter"
+      - "foreign object on wire"
+      - "transmission line foreign matter"
+    parent: null
+    is_parent: true
+    
+  VD:
+    id: 6
+    name: "Vibration damper"
+    abbr: "VD"
+    text_prompts:
+      - "vibration damper"
+      - "wire vibration damper"
+      - "stockbridge damper"
+    parent: null
+    is_parent: true
+    
+  # Glass insulator leaf categories (Seen)
+  NGI:
+    id: 7
+    name: "Normal glass insulator"
+    abbr: "NGI"
+    text_prompts:
+      - "normal glass insulator"
+      - "intact glass insulator"
+      - "healthy glass insulator"
+    parent: "GI"
+    is_parent: false
+    split: "seen"
+    
+  BGI:
+    id: 8
+    name: "Broken glass insulator"
+    abbr: "BGI"
+    text_prompts:
+      - "broken glass insulator"
+      - "damaged glass insulator"
+      - "cracked glass insulator"
+    parent: "GI"
+    is_parent: false
+    split: "seen"
+    
+  CGI:
+    id: 9
+    name: "Contaminated glass insulator"
+    abbr: "CGI"
+    text_prompts:
+      - "contaminated glass insulator"
+      - "dirty glass insulator"
+      - "polluted glass insulator"
+    parent: "GI"
+    is_parent: false
+    split: "seen"
+    
+  # Polymer insulator leaf categories
+  NPI:
+    id: 10
+    name: "Normal polymer insulator"
+    abbr: "NPI"
+    text_prompts:
+      - "normal polymer insulator"
+      - "intact polymer insulator"
+      - "healthy composite insulator"
+    parent: "PI"
+    is_parent: false
+    split: "seen"
+    
+  DaPI:
+    id: 11
+    name: "Damaged polymer insulator"
+    abbr: "DaPI"
+    text_prompts:
+      - "damaged polymer insulator"
+      - "broken composite insulator"
+    parent: "PI"
+    is_parent: false
+    split: "unseen"
+    
+  CPI:
+    id: 12
+    name: "Contaminated polymer insulator"
+    abbr: "CPI"
+    text_prompts:
+      - "contaminated polymer insulator"
+      - "dirty composite insulator"
+      - "polluted polymer insulator"
+    parent: "PI"
+    is_parent: false
+    split: "unseen"
+    
+  DePI:
+    id: 13
+    name: "Deformed polymer insulator"
+    abbr: "DePI"
+    text_prompts:
+      - "deformed polymer insulator"
+      - "distorted composite insulator"
+    parent: "PI"
+    is_parent: false
+    split: "unseen"
+    
+  # Ceramic insulator leaf categories
+  NCI:
+    id: 14
+    name: "Normal ceramic insulator"
+    abbr: "NCI"
+    text_prompts:
+      - "normal ceramic insulator"
+      - "intact porcelain insulator"
+      - "healthy ceramic insulator"
+    parent: "CI"
+    is_parent: false
+    split: "seen"
+    
+  CCI:
+    id: 15
+    name: "Contaminated ceramic insulator"
+    abbr: "CCI"
+    text_prompts:
+      - "contaminated ceramic insulator"
+      - "dirty porcelain insulator"
+      - "polluted ceramic insulator"
+    parent: "CI"
+    is_parent: false
+    split: "seen"
+    
+  BCI:
+    id: 16
+    name: "Broken ceramic insulator"
+    abbr: "BCI"
+    text_prompts:
+      - "broken ceramic insulator"
+      - "damaged porcelain insulator"
+      - "cracked ceramic insulator"
+    parent: "CI"
+    is_parent: false
+    split: "seen"
+    
+  FoCI:
+    id: 17
+    name: "Fall-off ceramic insulator"
+    abbr: "FoCI"
+    text_prompts:
+      - "fall-off ceramic insulator"
+      - "ceramic insulator fall-off"
+      - "missing ceramic insulator disc"
+    parent: "CI"
+    is_parent: false
+    split: "unseen"
+    
+  # Foreign matters on tower leaf categories
+  BNT:
+    id: 18
+    name: "Bird's nest on tower"
+    abbr: "BNT"
+    text_prompts:
+      - "bird's nest on tower"
+      - "tower bird's nest"
+      - "bird nest on transmission tower"
+    parent: "FMT"
+    is_parent: false
+    split: "seen"
+    
+  PBT:
+    id: 19
+    name: "Plastic bag on tower"
+    abbr: "PBT"
+    text_prompts:
+      - "plastic bag on tower"
+      - "tower plastic bag"
+    parent: "FMT"
+    is_parent: false
+    split: "seen"
+    
+  KoT:
+    id: 20
+    name: "Kite on tower"
+    abbr: "KoT"
+    text_prompts:
+      - "kite on tower"
+      - "tower kite"
+    parent: "FMT"
+    is_parent: false
+    split: "unseen"
+    
+  TB:
+    id: 21
+    name: "Tower balloon"
+    abbr: "TB"
+    text_prompts:
+      - "tower balloon"
+      - "balloon on tower"
+    parent: "FMT"
+    is_parent: false
+    split: "unseen"
+    
+  # Wire foreign matter leaf categories
+  WPB:
+    id: 22
+    name: "Wire plastic bag"
+    abbr: "WPB"
+    text_prompts:
+      - "wire plastic bag"
+      - "plastic bag on wire"
+    parent: "WFM"
+    is_parent: false
+    split: "seen"
+    
+  WK:
+    id: 23
+    name: "Wire kite"
+    abbr: "WK"
+    text_prompts:
+      - "wire kite"
+      - "kite on wire"
+    parent: "WFM"
+    is_parent: false
+    split: "unseen"
+    
+  WB:
+    id: 24
+    name: "Wire balloon"
+    abbr: "WB"
+    text_prompts:
+      - "wire balloon"
+      - "balloon on wire"
+    parent: "WFM"
+    is_parent: false
+    split: "unseen"
+    
+  # Transmission line defects
+  BSTL:
+    id: 25
+    name: "Broken strand of transmission line"
+    abbr: "BSTL"
+    text_prompts:
+      - "broken strand of transmission line"
+      - "transmission line broken strand"
+      - "wire strand breakage"
+    parent: null
+    is_parent: false
+    split: "seen"
+    
+  LSTL:
+    id: 26
+    name: "Loose strand of transmission line"
+    abbr: "LSTL"
+    text_prompts:
+      - "loose strand of transmission line"
+      - "transmission line loose strand"
+      - "wire strand loosening"
+    parent: null
+    is_parent: false
+    split: "seen"
+    
+  # Vibration damper leaf categories
+  DD:
+    id: 27
+    name: "Displacement of damper"
+    abbr: "DD"
+    text_prompts:
+      - "displacement of damper"
+      - "displaced vibration damper"
+      - "damper displacement"
+    parent: "VD"
+    is_parent: false
+    split: "unseen"
+    
+  MD:
+    id: 28
+    name: "Missing damper"
+    abbr: "MD"
+    text_prompts:
+      - "missing damper"
+      - "absent vibration damper"
+    parent: "VD"
+    is_parent: false
+    split: "unseen"
+    
+  # Hardware components
+  TC:
+    id: 29
+    name: "Tension clamp"
+    abbr: "TC"
+    text_prompts:
+      - "tension clamp"
+      - "strain clamp"
+      - "dead-end clamp"
+    parent: null
+    is_parent: false
+    split: "seen"
+    
+  AC:
+    id: 30
+    name: "Armour clamp"
+    abbr: "AC"
+    text_prompts:
+      - "armour clamp"
+      - "armor clamp"
+      - "armored clamp"
+    parent: null
+    is_parent: false
+    split: "seen"
+    
+  MSP:
+    id: 31
+    name: "Missing split pin"
+    abbr: "MSP"
+    text_prompts:
+      - "missing split pin"
+      - "absent cotter pin"
+      - "lost split pin"
+    parent: null
+    is_parent: false
+    split: "unseen"
+
+# Category splits for evaluation
+splits:
+  seen_leaf:
+    - "NGI"
+    - "BGI"
+    - "CGI"
+    - "NPI"
+    - "NCI"
+    - "CCI"
+    - "BCI"
+    - "BNT"
+    - "PBT"
+    - "WPB"
+    - "BSTL"
+    - "LSTL"
+    - "TC"
+    - "AC"
+    
+  unseen_leaf:
+    - "DaPI"
+    - "CPI"
+    - "DePI"
+    - "FoCI"
+    - "KoT"
+    - "TB"
+    - "WK"
+    - "WB"
+    - "DD"
+    - "MD"
+    - "MSP"
+    
+  parent:
+    - "IT"
+    - "CI"
+    - "GI"
+    - "PI"
+    - "FMT"
+    - "WFM"
+    - "VD"
+
+# Hierarchical label structure
+hierarchy:
+  IT:
+    children: ["CI", "GI", "PI"]
+  CI:
+    children: ["NCI", "CCI", "BCI", "FoCI"]
+  GI:
+    children: ["NGI", "BGI", "CGI"]
+  PI:
+    children: ["NPI", "DaPI", "CPI", "DePI"]
+  FMT:
+    children: ["BNT", "PBT", "KoT", "TB"]
+  WFM:
+    children: ["WPB", "WK", "WB"]
+  VD:
+    children: ["DD", "MD"]

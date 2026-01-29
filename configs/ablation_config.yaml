@@ -1,0 +1,117 @@
+# Ablation Study Configuration for PLVLDet
+# This configuration is used by all ablation study scripts
+
+# Model configuration
+model:
+  backbone_type: yolov12n  # yolov12n, yolov12s, yolov12m
+  num_classes: 32
+  text_dim: 512
+  visual_dim: 256
+  fusion_dim: 256
+  num_heads: 8
+  freeze_text_layers: 10  # Number of BERT layers to freeze
+
+# Data configuration
+data:
+  train_image_dir: data/splits/pleval_train/images
+  train_annotation: data/splits/pleval_train/annotations.json
+  val_image_dir: data/splits/pleval_val/images
+  val_annotation: data/splits/pleval_val/annotations.json
+  test_image_dir: data/splits/pleval_test/images
+  test_annotation: data/splits/pleval_test/annotations.json
+  category_file: configs/categories.yaml
+  img_size: 640
+  num_workers: 4
+
+# Training configuration
+training:
+  epochs: 30  # Reduced for ablation studies
+  batch_size: 8
+  lr: 0.0001
+  weight_decay: 0.05
+  
+  # Loss weights
+  contrastive_weight: 1.0
+  ciou_weight: 7.5
+  dfl_weight: 1.5
+  
+  # Optimizer
+  optimizer: adamw
+  
+  # Scheduler
+  scheduler: cosine
+  warmup_epochs: 2
+  min_lr_ratio: 0.01
+
+# Ablation-specific settings
+ablation:
+  # Text encoder ablation
+  text_encoder:
+    encoders:
+      - bert-base
+      - roberta-base
+      - powerbert
+    epochs: 30
+    eval_interval: 5
+  
+  # PA-VL-PAN component ablation
+  pavlpan:
+    components:
+      - full  # All components enabled
+      - no_pt_csp  # Without PT-CSPLayer
+      - no_spa  # Without Strip Pooling Attention
+      - no_soem  # Without Small Object Enhancement
+      - baseline  # Basic FPN without VL components
+    epochs: 30
+    eval_interval: 5
+  
+  # Backbone ablation
+  backbone:
+    configs:
+      - yolov12_full  # YOLOv12 with R-ELAN + Area Attention
+      - yolov12_no_aa  # Without Area Attention
+      - yolov12_no_relan  # Without R-ELAN
+      - yolov8_baseline  # YOLOv8 backbone for comparison
+    epochs: 30
+    eval_interval: 5
+  
+  # Freeze strategy ablation
+  freeze_strategy:
+    strategies:
+      - freeze_all  # Freeze text encoder completely
+      - freeze_partial  # Freeze first 10 layers
+      - unfreeze_all  # Train text encoder end-to-end
+      - gradual_unfreeze  # Gradually unfreeze layers
+    epochs: 30
+    eval_interval: 5
+  
+  # Pretraining ablation
+  pretraining:
+    modes:
+      - with_pretrain  # With MixPLOD pretraining
+      - without_pretrain  # Train from scratch
+      - partial_pretrain  # Pretrain backbone only
+    epochs: 30
+    eval_interval: 5
+  
+  # Hierarchical label ablation
+  hierarchical_label:
+    structures:
+      - flat  # 32 leaf categories only
+      - two_level  # Parent + leaf
+      - full_hierarchy  # Complete three-level hierarchy
+    epochs: 30
+    eval_interval: 5
+
+# Checkpoint paths for ablation experiments
+checkpoints:
+  powerbert: checkpoints/powerbert/powerbert_best.pth
+  pretrained: checkpoints/pretrain_best.pth
+  finetuned: checkpoints/finetune_best.pth
+
+# Output configuration
+output:
+  base_dir: results/ablation
+  save_checkpoints: true
+  save_visualizations: true
+  generate_reports: true

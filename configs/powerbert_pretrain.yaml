@@ -1,0 +1,78 @@
+# PowerBERT Domain Adaptation Pre-training Configuration
+
+# Model Configuration
+model:
+  name: "PowerBERT"
+  base_model: "bert-base-chinese"
+  hidden_size: 768
+  num_layers: 12
+  num_attention_heads: 12
+  intermediate_size: 3072
+  max_position_embeddings: 512
+  vocab_size: 21128  # Extended with power domain vocabulary
+  
+  # Domain adaptation layers
+  domain_adapter:
+    hidden_size: 768
+    output_dim: 512
+    dropout: 0.1
+
+# Training Configuration
+train:
+  epochs: 30
+  batch_size: 32
+  max_seq_length: 128
+  
+  # MLM task
+  mlm_probability: 0.15
+  
+  optimizer:
+    type: "AdamW"
+    lr: 5.0e-5
+    weight_decay: 0.01
+    betas: [0.9, 0.999]
+    eps: 1.0e-8
+    
+  scheduler:
+    type: "LinearWarmup"
+    warmup_ratio: 0.1
+    num_training_steps: null  # Set dynamically
+
+# Data Configuration
+data:
+  # Power domain corpus for MLM pre-training
+  corpus_path: "data/power_corpus.txt"
+  num_workers: 4
+
+# Vocabulary Extension
+vocabulary:
+  # Power line domain terms to add to tokenizer
+  additional_tokens:
+    - "绝缘子"
+    - "玻璃绝缘子"
+    - "瓷绝缘子"
+    - "复合绝缘子"
+    - "防振锤"
+    - "耐张线夹"
+    - "铠装线夹"
+    - "销钉"
+    - "鸟巢"
+    - "塑料袋"
+    - "风筝"
+    - "气球"
+    - "散股"
+    - "断股"
+    - "异物"
+    - "输电线路"
+    - "高压塔"
+
+# Checkpoint Configuration
+checkpoint:
+  save_interval: 5
+  keep_last: 3
+  save_best: true
+
+# Logging Configuration
+logging:
+  use_tensorboard: true
+  log_interval: 100

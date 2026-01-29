@@ -1,0 +1,127 @@
+# PLVLDet Fine-tuning Configuration
+
+# Model Configuration
+model:
+  name: "PLVLDet"
+  
+  # Text Encoder (PowerBERT)
+  text_encoder:
+    type: "PowerBERT"
+    pretrained: "bert-base-chinese"
+    hidden_size: 768
+    num_layers: 12
+    num_attention_heads: 12
+    intermediate_size: 3072
+    output_dim: 512
+    freeze: true  # Keep frozen during fine-tuning
+    
+  # Visual Backbone (YOLOv12)
+  backbone:
+    type: "YOLOv12"
+    depth_multiple: 0.67
+    width_multiple: 0.75
+    input_channels: 3
+    out_channels: [256, 512, 1024]
+    area_attention:
+      num_regions: 4
+      use_flash_attn: true
+    
+  # PA-VL-PAN
+  neck:
+    type: "PA_VL_PAN"
+    in_channels: [256, 512, 1024]
+    out_channels: 512
+    num_csp_blocks: 3
+    strip_pooling: true
+    soem_enabled: true
+    text_dim: 512
+    
+  # Detection Head
+  head:
+    type: "VLHead"
+    num_classes: 32
+    reg_max: 16
+    embed_dim: 512
+
+# Data Configuration
+data:
+  img_size: 1000
+  patch_size: 1000
+  stride: 800
+  mosaic_prob: 0.3
+  mixup_prob: 0.05
+  num_workers: 8
+  pin_memory: true
+
+# Training Configuration
+train:
+  epochs: 50
+  batch_size: 8  # per GPU
+  accumulate_grad: 1
+  
+  # Load pretrained weights
+  pretrained_weights: null  # Set via command line
+  
+  optimizer:
+    type: "AdamW"
+    lr: 0.0001  # Lower lr for fine-tuning
+    weight_decay: 0.05
+    betas: [0.9, 0.999]
+    
+  scheduler:
+    type: "CosineAnnealingLR"
+    T_max: 50
+    eta_min: 1.0e-7
+    warmup_epochs: 3
+    warmup_lr: 1.0e-7
+    
+  # Data Augmentation (lighter for fine-tuning)
+  augmentation:
+    hsv_h: 0.01
+    hsv_s: 0.5
+    hsv_v: 0.3
+    degrees: 0.0
+    translate: 0.1
+    scale: 0.3
+    shear: 0.0
+    perspective: 0.0
+    flipud: 0.0
+    fliplr: 0.5
+    mosaic: 0.3
+    mixup: 0.05
+    copy_paste: 0.0
+
+# Loss Configuration
+loss:
+  contrastive:
+    type: "RegionTextContrastiveLoss"
+    temperature: 0.07
+    weight: 1.0
+    
+  box:
+    type: "CIoULoss"
+    weight: 7.5
+    
+  dfl:
+    type: "DistributionFocalLoss"
+    weight: 1.5
+    reg_max: 16
+
+# Evaluation Configuration
+eval:
+  conf_thres: 0.001
+  iou_thres: 0.65
+  max_det: 300
+  
+# Checkpoint Configuration
+checkpoint:
+  save_interval: 5
+  keep_last: 5
+  save_best: true
+
+# Logging Configuration
+logging:
+  use_tensorboard: true
+  use_wandb: false
+  log_interval: 50
+  project_name: "PLVLDet-Finetune"
